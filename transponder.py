@@ -1,5 +1,8 @@
 import random
 import time
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 class Vehicle:
     """Represents a vehicle with a unique ID, speed, and position."""
@@ -45,7 +48,7 @@ class TrafficSystem:
         for transponder in self.transponders:
             data = transponder.transmit()
             self.data_log.append(data)
-            print(f"Transmitting data: {data}")
+            logging.info(f"Transmitting data: {data}")
 
     def simulate(self, duration, dt):
         # Run the simulation for a given duration (in seconds) with updates every dt seconds
@@ -61,8 +64,11 @@ def exec_dynamic_code(code, globals_dict=None, locals_dict=None):
     WARNING: Using exec can be dangerous if code is untrusted.
     Ensure that only trusted code is executed.
     """
-    print("\nExecuting dynamic analysis code:")
-    exec(code, globals_dict, locals_dict)
+    logging.info("\nExecuting dynamic analysis code:")
+    try:
+        exec(code, globals_dict, locals_dict)
+    except Exception as e:
+        logging.error(f"Error executing dynamic code: {e}")
 
 if __name__ == "__main__":
     # Create the traffic system
@@ -85,4 +91,3 @@ for record in system.data_log:
 """
     # Execute the dynamic analysis code, passing in the system as part of globals
     exec_dynamic_code(analysis_code, globals())
-
